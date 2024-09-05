@@ -25,4 +25,4 @@ options:
 
 Recording mode: (p) Pause, (space / return) Add step, (ctrl-c / q) Quit.
 
-Playing mode: (p) Pause, (space / return / j / l / j / right arrow) Next step, (h / k / left arrow) Prev step, (0 / backspace) Restart current step, (ctrl-c / q) Quit.
+Playing mode: (p) Pause, (space / return / j / l / right arrow) Next step, (h / k / left arrow) Prev step, (0 / backspace) Restart current step, (ctrl-c / q) Quit.
