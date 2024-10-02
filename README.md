@@ -6,6 +6,10 @@ Step timings are saved to a local database and read on subsequent runs.
 
 vidsteps was developed to make it easier for me to follow along with recipe videos as I cook. Its primary purpose is to be useful for me for that purpose, but you may find it useful as well.
 
+## Installing
+
+vidsteps has been tested on Linux, MacOS, and Windows. On all platforms, ffmpeg must be installed through a native package manager. pip will take care of the rest.
+
 ## Help text
 
 ```
