@@ -16,15 +16,13 @@ classifiers = [
 ]
 keywords = ["video"]
 dependencies = [
+    # moviepy is not actively maintained, and some fixes that we
+    # need are not yet on pypi
+    "moviepy@git+https://github.com/Zulko/moviepy.git",
+
     "appdirs>=1.4.4",
-    "moviepy>=1.0.3",
     "opencv-python>=4.10.0.84",
     "pygame>=2.6.0",
-
-    # Recent numpy has removed deprecated functions that
-    # moviepy relied upon. moviepy is not actively maintained,
-    # so pinning numpy is the easiest solution for now.
-    "numpy==2.1.1",
 ]
 requires-python = ">=3.9"
 

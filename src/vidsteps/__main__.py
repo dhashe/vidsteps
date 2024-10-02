@@ -140,10 +140,8 @@ def play_clip(screen, clip, step_timestamps, ui_func, event_func, repeat):
 
     audio_array = clip.audio.to_soundarray()
 
-    # Convert stereo to mono
-    audio_mono = audio_array.mean(axis=1)
     # Normalize to fit within 16 bit signed integer
-    audio_normalized = np.int16(audio_mono / np.max(np.abs(audio_mono)) * 32767)
+    audio_normalized = np.int16(audio_array / np.max(np.abs(audio_array)) * 32767)
     clip_sound = pygame.sndarray.make_sound(audio_normalized)
 
     ms_per_frame = 1000 / clip.fps
@@ -200,6 +198,8 @@ def play_clip(screen, clip, step_timestamps, ui_func, event_func, repeat):
             else:
                 current_video_delay_ms += clock.tick(clip.fps) - ms_per_frame
 
+        clip_sound.stop()
+
         if not repeat or not running or step_delta in [-1, 1]:
             break
 
@@ -243,7 +243,7 @@ def main():
     )
     pygame.display.set_caption("vidsteps: " + os.path.basename(video_path))
     video = video.resize(
-        newsize=resize_keep_aspect_ratio(
+        new_size=resize_keep_aspect_ratio(
             video.size[0], video.size[1], display_info.current_h * 0.9
         )
     )
