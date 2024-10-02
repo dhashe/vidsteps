@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import io
 import itertools
 import json
 import os.path
@@ -10,6 +11,7 @@ import appdirs
 import moviepy.editor
 import numpy as np
 import pygame
+import scipy.io.wavfile
 
 #
 # Database access layer
@@ -140,9 +142,19 @@ def play_clip(screen, clip, step_timestamps, ui_func, event_func, repeat):
 
     audio_array = clip.audio.to_soundarray()
 
-    # Normalize to fit within 16 bit signed integer
+    # Normalize to fit within 16 bit signed integer. Pygame is very picky about its WAVs.
     audio_normalized = np.int16(audio_array / np.max(np.abs(audio_array)) * 32767)
-    clip_sound = pygame.sndarray.make_sound(audio_normalized)
+
+    # Create a BytesIO object to hold the WAV data
+    audio_io = io.BytesIO()
+
+    # Fill the BytesIO object and seek back
+    sample_rate = int(clip.audio.fps)
+    scipy.io.wavfile.write(audio_io, sample_rate, audio_normalized)
+    audio_io.seek(0)
+
+    # Load the WAV data from the BytesIO object into pygame mixer music
+    pygame.mixer.music.load(audio_io)
 
     ms_per_frame = 1000 / clip.fps
 
@@ -163,7 +175,7 @@ def play_clip(screen, clip, step_timestamps, ui_func, event_func, repeat):
         frame_generator = itertools.chain([next(frame_generator)], frame_generator)
 
         clock = pygame.time.Clock()
-        clip_sound.play()
+        pygame.mixer.music.play()
 
         for i, frame in enumerate(frame_generator):
             # Correct for syncing issues by dropping frames or waiting
@@ -197,8 +209,6 @@ def play_clip(screen, clip, step_timestamps, ui_func, event_func, repeat):
                 break
             else:
                 current_video_delay_ms += clock.tick(clip.fps) - ms_per_frame
-
-        clip_sound.stop()
 
         if not repeat or not running or step_delta in [-1, 1]:
             break
