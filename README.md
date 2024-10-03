@@ -10,6 +10,8 @@ vidsteps was developed to make it easier for me to follow along with recipe vide
 
 vidsteps has been tested on Linux, MacOS, and Windows. On all platforms, ffmpeg must be installed through a native package manager. pip will take care of the rest.
 
+This package is not available on PyPI right now because it depends on the development version of moviepy, and PyPI doesn't allow packages to do that. Hopefully this will change if/when moviepy does another release.
+
 ## Help text
 
 ```
