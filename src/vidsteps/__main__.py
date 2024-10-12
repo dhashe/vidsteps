@@ -305,9 +305,10 @@ def main():
             repeat=False,
         )
 
-        with sqlite3.connect(db_filename) as conn:
-            cursor = conn.cursor()
-            set_timestamps_for_video(cursor, video_path, step_timestamps)
+        if running:
+            with sqlite3.connect(db_filename) as conn:
+                cursor = conn.cursor()
+                set_timestamps_for_video(cursor, video_path, step_timestamps)
 
     # play steps mode
     step_idx = 0
