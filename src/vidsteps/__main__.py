@@ -8,7 +8,7 @@ import os.path
 import sqlite3
 
 import appdirs
-import moviepy.editor
+import moviepy
 import numpy as np
 import pygame
 import scipy.io.wavfile
@@ -242,7 +242,7 @@ def main():
         else:
             step_timestamps = get_timestamps_for_video(cursor, video_path)
 
-    video = moviepy.editor.VideoFileClip(video_path)
+    video = moviepy.VideoFileClip(video_path)
 
     pygame.init()
     pygame.mixer.init()
@@ -252,7 +252,7 @@ def main():
         (display_info.current_w * 0.9, display_info.current_h * 0.9 + 50)
     )
     pygame.display.set_caption("vidsteps: " + os.path.basename(video_path))
-    video = video.resize(
+    video = video.resized(
         new_size=resize_keep_aspect_ratio(
             video.size[0], video.size[1], display_info.current_h * 0.9
         )
@@ -367,7 +367,7 @@ def main():
             return running, paused, step_delta
 
         try:
-            clip = video.subclip(clip_start, clip_end)
+            clip = video.subclipped(clip_start, clip_end)
         except ValueError:
             running = False
             break
